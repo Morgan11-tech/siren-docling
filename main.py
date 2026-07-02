@@ -7,6 +7,11 @@ API_KEY = os.environ["SIREN_API_KEY"]  # set as a secret on the host
 app = FastAPI()
 converter = DocumentConverter()
 
+@app.get("/health")
+async def health():
+    """Lightweight endpoint for cold-start / connectivity checks from the app."""
+    return {"status": "ok"}
+
 @app.post("/extract")
 async def extract(file: UploadFile, x_api_key: str = Header(None)):
     if x_api_key != API_KEY:
